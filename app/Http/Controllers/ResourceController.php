@@ -2,24 +2,38 @@
 
 namespace App\Http\Controllers;
 
-use App\Resource;
-use Illuminate\Http\Request;
+use App\{Resource, ResourceRecord};
+use App\Http\Requests\ResourceStatusUpdateRequest as Request;
 
 class ResourceController extends Controller
 {
     /**
      * Generate records for the beacon to validate.
+     *
+     * @param  Resource $resource
+     * @return array
      */
-    public function generate(Resource $resource)
+    public function generate(Resource $resource) : array
     {
         $resource->get()->each->generateNewRecord();
 
         return ['status' => 'success', 'message' => 'Records generated!'];
     }
 
-    public function updateStatus(Resource $resource)
+    /**
+     * Updates the status.
+     *
+     * @param  Resource $resource
+     * @return
+     */
+    public function updateStatus(ResourceRecord $record, Request $request)
     {
-        # code...
+        $updated = $record->updateAvailability($request);
+
+        return [
+            'status'  => ($updated ? 'success' : 'error'),
+            'message' => ($updated ? 'Record updated.' : 'Record update failed.'),
+        ];
     }
 
     /**

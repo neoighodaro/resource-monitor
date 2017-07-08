@@ -7,36 +7,36 @@ use Illuminate\Database\Eloquent\Model;
 
 class Resource extends Model {
 
-	use SupportsUuid;
+    use SupportsUuid;
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public $timestamps = false;
+    /**
+     * {@inheritDoc}
+     */
+    public $timestamps = false;
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public $incrementing = false;
+    /**
+     * {@inheritDoc}
+     */
+    public $incrementing = false;
 
-	/**
-	 * {@inheritDoc}
-	 */
-	protected $fillable = ['name', 'type'];
+    /**
+     * {@inheritDoc}
+     */
+    protected $fillable = ['name', 'type'];
 
-	/**
-	 * Save a resource record
-	 */
-	public function generateNewRecord()
-	{
-		return $this->records()->save(new ResourceRecord);
-	}
+    /**
+     * Save a resource record
+     */
+    public function generateNewRecord()
+    {
+        return $this->records()->save(new ResourceRecord);
+    }
 
-	/**
-	 * Resource record relationship.
-	 */
-	public function records()
-	{
-		return $this->hasMany(ResourceRecord::class);
-	}
+    /**
+     * Resource record relationship.
+     */
+    public function records()
+    {
+        return $this->hasMany(ResourceRecord::class);
+    }
 }
