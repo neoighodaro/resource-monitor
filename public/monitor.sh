@@ -19,7 +19,7 @@
 ACCESS_TOKEN=
 REMOTE_SERVER_URL="http://upmonitor.dev/resources/status"
 NOTIFICATION_ERROR_MESSAGE="Watchdog cannot connect to ${REMOTE_SERVER_URL}. Status Code: :STATUS_CODE:"
-__DEBUGGING=true
+__DEBUGGING=
 
 # ------------------------------------------------------------------------------
 # Global helper functions
