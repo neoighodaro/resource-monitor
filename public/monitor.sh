@@ -101,10 +101,10 @@ __monitor_internet() {
     __check_connection_status() {
     	PING_STATUS=$(ping -c 2 -W 2 google.com 2>/dev/null)
 
-        if echo "$PING_STATUS" | grep -q "0.0% packet loss"
+        if echo "$PING_STATUS" | grep -q "0.0% packet loss" || echo "$PING_STATUS" | grep -q " 0% packet loss"
         then
             echo "up"
-        elif echo "$PING_STATUS" | grep -q "100.0% packet loss"
+        elif echo "$PING_STATUS" | grep -q "100.0% packet loss" || echo "$PING_STATUS" | grep -q " 100% packet loss"
         then
     		echo "down"
     	fi
