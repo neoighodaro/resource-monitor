@@ -101,10 +101,10 @@ __monitor_internet() {
     __check_connection_status() {
     	PING_STATUS=$(ping -c 2 -W 2 google.com 2>/dev/null)
 
-        if echo "${PING_STATUS}" | grep -q "0.0% packet loss"
+        if echo "$PING_STATUS" | grep -q "0.0% packet loss"
         then
             echo "up"
-        elif echo "${PING_STATUS}" | grep -q "100.0% packet loss"
+        elif echo "$PING_STATUS" | grep -q "100.0% packet loss"
         then
     		echo "down"
     	fi
@@ -224,3 +224,6 @@ case ${MONITOR_TYPE} in
         __monitor_power
         ;;
 esac
+
+## Debugger
+__print_debug_message "Completed"
