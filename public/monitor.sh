@@ -19,35 +19,35 @@
 ACCESS_TOKEN=
 REMOTE_SERVER_URL="http://upmonitor.dev/resources/status"
 NOTIFICATION_ERROR_MESSAGE="Watchdog cannot connect to ${REMOTE_SERVER_URL}. Status Code: :STATUS_CODE:"
-
-
-# ------------------------------------------------------------------------------
-# Validation before proceeding
-# ------------------------------------------------------------------------------
-
-MONITOR_TYPE=${1}
-RESOURCE_UUID=${2}
-
-if ([[ ${MONITOR_TYPE} != "power" ]] && [[ ${MONITOR_TYPE} != "internet" ]]) || [[ -z ${RESOURCE_UUID} ]]
-then
-    echo "Usage: monitor <power|internet> <uuid>"
-    exit 1
-fi
-
-if [[ ! ${RESOURCE_UUID} =~ ^\{?[A-F0-9a-f]{8}-[A-F0-9a-f]{4}-[A-F0-9a-f]{4}-[A-F0-9a-f]{4}-[A-F0-9a-f]{12}\}?$ ]]
-then
-    echo "Error: Invalid UUID specified. Please use the UUID given by the monitor application."
-    exit 1
-fi
-
+__DEBUGGING=true
 
 # ------------------------------------------------------------------------------
 # Global helper functions
 # ------------------------------------------------------------------------------
 
+## Debugger...
+__print_debug_message() {
+    if [[ ! -z ${__DEBUGGING} ]]
+    then
+        # echo ""
+        # echo "==================================================="
+        # echo "[Debug]"
+        echo "===> ${1}"
+        # echo "==================================================="
+        # echo ""
+    fi
+}
+
+
 ## Displays a notification on the host machine
 __display_notification() {
+    ## Debugger...
+    __print_debug_message "Sending notification to host machine"
+
     NOTIFICATION_ERROR_MESSAGE=${NOTIFICATION_ERROR_MESSAGE/:STATUS_CODE:/${STATUS_CODE}}
+
+    ## Debugger...
+    __print_debug_message "Message: ${NOTIFICATION_ERROR_MESSAGE}"
 
     case $(uname) in
         "Darwin")
@@ -57,6 +57,9 @@ __display_notification() {
             notify-send "${NOTIFICATION_ERROR_MESSAGE/:STATUS_CODE:/${STATUS_CODE}}"
             ;;
     esac
+
+    # Debugger...
+    __print_debug_message "Notification sent to the host nachine"
 }
 
 ## Sends the resource status to the remote server
@@ -67,7 +70,13 @@ __send_resource_status() {
         exit 1
     fi
 
+    ## Debugger...
+    __print_debug_message "Sending request to the host server"
+
     STATUS_CODE=$(curl --write-out "%{http_code}" -d "uuid=${RESOURCE_UUID}&status=${RESOURCE_STATUS}&token=${ACCESS_TOKEN}" --silent --output /dev/null ${REMOTE_SERVER_URL})
+
+    # Debugger
+    __print_debug_message "Request returned status code: ${STATUS_CODE}"
 }
 
 ## Sends the resource status to the remote server, and displays a notification if it fails to send the status
@@ -101,7 +110,13 @@ __monitor_internet() {
     	fi
     }
 
+    ## Debugger...
+    __print_debug_message "Checking connection status"
+
     RESOURCE_STATUS=$(__check_connection_status)
+
+    ## Debugger...
+    __print_debug_message "Connection status returned: ${RESOURCE_STATUS}"
 
     __send_resource_status_with_notification_on_failure
 }
@@ -131,16 +146,16 @@ __monitor_power() {
                 DISCHARGING=$(echo "${BATTERY_DETAILS}" | grep -w 'Battery Power')
                 ;;
             "Linux")
-                BATTERY_DETAILS=$(LC_ALL=en_US.UTF-8 upower -i "$(upower -e | grep "BAT")")
+                BATTERY_DETAILS=$(LC_ALL=en_US.UTF-8 upower -i "$(upower -e | grep 'BAT')")
 
                 if [[ -z ${BATTERY_DETAILS} ]]
                 then
                     __exit_no_battery
                 fi
 
-                CHARGED=$(echo "${BATTERY_DETAILS}" | grep "state" | grep -w "fully-charged")
-                CHARGING=$(echo "${BATTERY_DETAILS}" | grep "state" | grep -w "charging")
-                DISCHARGING=$(echo "${BATTERY_DETAILS}" | grep "state" | grep -w "discharging")
+                CHARGED=$(echo "$BATTERY_DETAILS" | grep -w 'state: fully-charged')
+                CHARGING=$(echo "$BATTERY_DETAILS" | grep -w 'state: charging')
+                DISCHARGING=$(echo "$BATTERY_DETAILS" | grep -w 'state: discharging')
                 ;;
         esac
 
@@ -153,7 +168,13 @@ __monitor_power() {
         fi
     }
 
+    ## Debugger...
+    __print_debug_message "Checking battery status"
+
     RESOURCE_STATUS=$(__get_battery_details)
+
+    ## Debugger...
+    __print_debug_message "Battery charging status returned: ${RESOURCE_STATUS}"
 
     __send_resource_status_with_notification_on_failure
 }
@@ -162,6 +183,38 @@ __monitor_power() {
 # ------------------------------------------------------------------------------
 # Capua!!! Shall I begin?!
 # ------------------------------------------------------------------------------
+
+# ------------------------------------------------------------------------------
+# Validation before proceeding
+# ------------------------------------------------------------------------------
+
+## Debugger...
+__print_debug_message "[Debug Mode On]"
+__print_debug_message "Running validation"
+
+MONITOR_TYPE=${1}
+RESOURCE_UUID=${2}
+
+if ([[ ${MONITOR_TYPE} != "power" ]] && [[ ${MONITOR_TYPE} != "internet" ]]) || [[ -z ${RESOURCE_UUID} ]]
+then
+    ## Debugger...
+    __print_debug_message "Monitor type validation failed."
+
+    echo "Usage: monitor <power|internet> <uuid>"
+    exit 1
+fi
+
+if [[ ! ${RESOURCE_UUID} =~ ^\{?[A-F0-9a-f]{8}-[A-F0-9a-f]{4}-[A-F0-9a-f]{4}-[A-F0-9a-f]{4}-[A-F0-9a-f]{12}\}?$ ]]
+then
+    ## Debugger...
+    __print_debug_message "UUID validation failed"
+
+    echo "Error: Invalid UUID specified. Please use the UUID given by the monitor application."
+    exit 1
+fi
+
+## Debugger...
+__print_debug_message "Passed validation. Firing script"
 
 case ${MONITOR_TYPE} in
     "internet")
