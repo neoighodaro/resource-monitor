@@ -49,7 +49,7 @@ __display_notification() {
             osascript -e "display notification \"${NOTIFICATION_ERROR_MESSAGE}\" sound name \"Frog\" with title \"Watchdog\""
             ;;
         "Linux")
-            notify-send "${NOTIFICATION_ERROR_MESSAGE/:STATUS_CODE:/${STATUS_CODE}}"
+            notify-send "${NOTIFICATION_ERROR_MESSAGE}"
             ;;
     esac
 
