@@ -22,7 +22,7 @@ class ResourceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Resource $resource)
+    public function index(Resource $resources)
     {
         return $resources->with('records')->all();
     }
