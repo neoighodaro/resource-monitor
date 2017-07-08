@@ -131,23 +131,23 @@ __monitor_power() {
                 DISCHARGING=$(echo ${BATTERY_DETAILS} | grep -w 'Battery Power')
                 ;;
             "Linux")
-                BATTERY_DETAILS=$(LC_ALL=en_US.UTF-8 upower -i $(upower -e | grep "BAT"))
+                BATTERY_DETAILS=$(LC_ALL=en_US.UTF-8 upower -i $(upower -e | grep 'BAT'))
 
-                if [[ -z ${BATTERY_DETAILS} ]]
+                if [ -z "${BATTERY_DETAILS}" ]
                 then
                     __exit_no_battery
                 fi
 
-                CHARGED=$(echo ${BATTERY_DETAILS} | grep "state" | grep -w "fully-charged")
-                CHARGING=$(echo ${BATTERY_DETAILS} | grep "state" | grep -w "charging")
-                DISCHARGING=$(echo ${BATTERY_DETAILS} | grep "state" | grep -w "discharging")
+                CHARGED=$(echo "${BATTERY_DETAILS}" | grep 'state' | grep -w 'fully-charged')
+                CHARGING=$(echo "${BATTERY_DETAILS}" | grep 'state' | grep -w 'charging')
+                DISCHARGING=$(echo "${BATTERY_DETAILS}" | grep 'state' | grep -w 'discharging')
                 ;;
         esac
 
         if [[ ! -z ${CHARGED} ]] || [[ ! -z ${CHARGING} ]]
         then
             echo "up"
-        elif [ ! -z ${DISCHARGING} ]
+        elif [[ ! -z ${DISCHARGING} ]]
         then
             echo "down"
         fi
