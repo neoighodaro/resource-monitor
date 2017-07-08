@@ -17,6 +17,11 @@ class ResourceController extends Controller
         return ['status' => 'success', 'message' => 'Records generated!'];
     }
 
+    public function updateStatus(Resource $resource)
+    {
+        # code...
+    }
+
     /**
      * Display a listing of the resource.
      *

@@ -12,6 +12,7 @@
 */
 
 Route::get('resources/records/generate', 'ResourceController@generate');
+Route::post('resources/status', 'ResourceController@updateStatus');
 
 Route::get('/', function () {
     return view('welcome');
