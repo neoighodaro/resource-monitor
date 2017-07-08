@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # ------------------------------------------------------------------------------
 # Power and Internet monitor
@@ -153,9 +153,9 @@ __monitor_power() {
                     __exit_no_battery
                 fi
 
-                CHARGED=$(echo "$BATTERY_DETAILS" | grep -w 'state: fully-charged')
-                CHARGING=$(echo "$BATTERY_DETAILS" | grep -w 'state: charging')
-                DISCHARGING=$(echo "$BATTERY_DETAILS" | grep -w 'state: discharging')
+                CHARGED=$(echo "$BATTERY_DETAILS" | grep 'state' | grep -w 'fully-charged')
+                CHARGING=$(echo "$BATTERY_DETAILS" | grep 'state' | grep -w 'charging')
+                DISCHARGING=$(echo "$BATTERY_DETAILS" | grep 'state' | grep -w 'discharging')
                 ;;
         esac
 
