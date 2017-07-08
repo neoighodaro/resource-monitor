@@ -54,7 +54,7 @@ __display_notification() {
             osascript -e "display notification \"${NOTIFICATION_ERROR_MESSAGE}\" sound name \"Frog\" with title \"Watchdog\""
             ;;
         "Linux")
-            notify-send ${NOTIFICATION_ERROR_MESSAGE/:STATUS_CODE:/${STATUS_CODE}}
+            notify-send "${NOTIFICATION_ERROR_MESSAGE/:STATUS_CODE:/${STATUS_CODE}}"
             ;;
     esac
 }
@@ -67,7 +67,7 @@ __send_resource_status() {
         exit 1
     fi
 
-    STATUS_CODE=$(curl --write-out "%{http_code}" -d "uuid=${RESOURCE_UUID}&status=${RESOURCE_STATUS}" --silent --output /dev/null ${REMOTE_SERVER_URL})
+    STATUS_CODE=$(curl --write-out "%{http_code}" -d "uuid=${RESOURCE_UUID}&status=${RESOURCE_STATUS}&token=${ACCESS_TOKEN}" --silent --output /dev/null ${REMOTE_SERVER_URL})
 }
 
 ## Sends the resource status to the remote server, and displays a notification if it fails to send the status
@@ -92,10 +92,10 @@ __monitor_internet() {
     __check_connection_status() {
     	PING_STATUS=$(ping -c 2 -W 2 google.com 2>/dev/null)
 
-        if [[ ! -z $(echo ${PING_STATUS} | grep -w "0.0% packet loss") ]]
+        if echo "${PING_STATUS}" | grep -q "0.0% packet loss"
         then
             echo "up"
-        elif [[ ! -z $(echo ${PING_STATUS} | grep -w "100.0% packet loss") ]]
+        elif echo "${PING_STATUS}" | grep -q "100.0% packet loss"
         then
     		echo "down"
     	fi
@@ -126,21 +126,21 @@ __monitor_power() {
                     __exit_no_battery
                 fi
 
-                CHARGED=$(echo ${BATTERY_DETAILS} | grep -w 'charged')
-                CHARGING=$(echo ${BATTERY_DETAILS} | grep -w 'AC Power')
-                DISCHARGING=$(echo ${BATTERY_DETAILS} | grep -w 'Battery Power')
+                CHARGED=$(echo "${BATTERY_DETAILS}" | grep -w 'charged')
+                CHARGING=$(echo "${BATTERY_DETAILS}" | grep -w 'AC Power')
+                DISCHARGING=$(echo "${BATTERY_DETAILS}" | grep -w 'Battery Power')
                 ;;
             "Linux")
-                BATTERY_DETAILS=$(LC_ALL=en_US.UTF-8 upower -i $(upower -e | grep 'BAT'))
+                BATTERY_DETAILS=$(LC_ALL=en_US.UTF-8 upower -i "$(upower -e | grep "BAT")")
 
-                if [ -z "${BATTERY_DETAILS}" ]
+                if [[ -z ${BATTERY_DETAILS} ]]
                 then
                     __exit_no_battery
                 fi
 
-                CHARGED=$(echo "${BATTERY_DETAILS}" | grep 'state' | grep -w 'fully-charged')
-                CHARGING=$(echo "${BATTERY_DETAILS}" | grep 'state' | grep -w 'charging')
-                DISCHARGING=$(echo "${BATTERY_DETAILS}" | grep 'state' | grep -w 'discharging')
+                CHARGED=$(echo "${BATTERY_DETAILS}" | grep "state" | grep -w "fully-charged")
+                CHARGING=$(echo "${BATTERY_DETAILS}" | grep "state" | grep -w "charging")
+                DISCHARGING=$(echo "${BATTERY_DETAILS}" | grep "state" | grep -w "discharging")
                 ;;
         esac
 
