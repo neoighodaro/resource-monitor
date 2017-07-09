@@ -43,7 +43,8 @@ class ResourceController extends Controller
      */
     public function index(Resource $resources)
     {
-        return $resources->with('records')->all();
+        // return $resources->with('records')->get();
+        return view('resources.index');
     }
 
     /**
