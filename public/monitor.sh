@@ -16,7 +16,7 @@
 # Configuration. You can edit these variables
 # ------------------------------------------------------------------------------
 
-ACCESS_TOKEN=
+ACCESS_TOKEN=SampleToken
 REMOTE_SERVER_URL="http://upmonitor.dev/resources/status"
 NOTIFICATION_ERROR_MESSAGE="Watchdog cannot connect to ${REMOTE_SERVER_URL}. Status Code: :STATUS_CODE:"
 __DEBUGGING=
