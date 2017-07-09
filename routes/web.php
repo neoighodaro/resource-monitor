@@ -11,9 +11,9 @@
 |
 */
 
-Route::get('resources/records/generate', 'ResourceController@generate');
-Route::post('resources/records', 'ResourceController@index');
-Route::post('resources/status', 'ResourceController@updateStatus');
+Route::post('resources/records/generate', 'ResourceController@generate')->middleware('token.verify');
+Route::post('resources/status', 'ResourceController@updateStatus')->middleware('token.verify');
+Route::resource('resources', 'ResourceController');
 
 Route::get('/', function () {
     return view('welcome');

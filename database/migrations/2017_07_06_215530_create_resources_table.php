@@ -18,6 +18,7 @@ class CreateResourcesTable extends Migration
             $table->primary('id');
             $table->string('name')->unique();
             $table->enum('type', ['internet', 'power']);
+            $table->timestamps();
         });
     }
 

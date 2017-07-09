@@ -16,7 +16,7 @@ class CreateResourceRecordsTable extends Migration
         Schema::create('resource_records', function (Blueprint $table) {
             $table->increments('id');
             $table->string('resource_id')->index();
-            $table->foreign('resource_id')->references('id')->on('resources');
+            $table->foreign('resource_id')->references('id')->on('resources')->onDelete('cascade');
             $table->boolean('available')->default(false);
             $table->timestamps();
         });

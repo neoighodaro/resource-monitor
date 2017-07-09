@@ -1,9 +1,62 @@
-
-// Fonts
-@import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
-
 // Variables
 @import "variables";
 
 // Bootstrap
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+
+@import "node_modules/toastr/toastr";
+
+.navbar-brand {
+    font-family: 'Passion One';
+    text-transform: uppercase;
+    font-size: 26px;
+}
+
+.ttl {
+    position: relative;
+    top: 5px;
+}
+
+.record-title {
+    h1 {
+        margin: 0;
+        font-family: 'Passion One';
+        text-transform: uppercase;
+    }
+    span.label {
+        text-transform: uppercase;
+    }
+}
+
+.record.list-group-item {
+    border: none;
+}
+
+.panel-body .huge {
+    font-family: 'Passion One';
+    font-size: 40px;
+    line-height: 40px;
+    &.huge-danger {
+        color: #a94442;
+    }
+    &.huge-success {
+        color: #3c763d;
+    }
+}
+
+#datepicker .style {
+    border-color: #d9d9d9;
+    background-color: #fcfcfc;
+    outline: none;
+    box-shadow: none;
+}
+
+#datepicker button {
+    outline: none;
+}
+
+.list-group-item-blank {
+    border: none;
+    color: #777;
+    font-size: 16px;
+}

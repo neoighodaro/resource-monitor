@@ -26,7 +26,11 @@ class ResourceRecord extends Model {
 	 */
 	public function updateAvailability(Request $request): bool
 	{
-        if ($record = $this->recentRecords($request->uuid)->first()) {
+		$record = $this->recentRecords($request->uuid)
+					   ->whereRaw('updated_at = created_at')
+					   ->first();
+
+        if ($record) {
         	$record->available = $request->status();
         	$record->save();
         }
@@ -46,7 +50,6 @@ class ResourceRecord extends Model {
 	{
 		return $query->whereResourceId($uuid)
 					 ->where('created_at', '>=', Carbon::now()->subMinutes($minutes))
-					 ->whereRaw('updated_at = created_at')
                      ->orderBy('created_at', 'desc');
 	}
 

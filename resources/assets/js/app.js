@@ -7,7 +7,17 @@
 
 require("./bootstrap");
 
-window.Vue = require("vue");
+$('.panel-body .input-daterange').datepicker({
+    maxViewMode: 1,
+    format: "yyyy-mm-dd",
+    clearBtn: true,
+    autoclose: true,
+    endDate: new Date(),
+    startDate: new Date(new Date().setFullYear(new Date().getFullYear() - 1)),
+});
+
+
+// window.Vue = require("vue");
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -15,8 +25,8 @@ window.Vue = require("vue");
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component("example", require("./components/Example.vue"));
+// Vue.component("example", require("./components/Example.vue"));
 
-const app = new Vue({
-    el: "#app"
-});
+// const app = new Vue({
+//     el: "#app"
+// });

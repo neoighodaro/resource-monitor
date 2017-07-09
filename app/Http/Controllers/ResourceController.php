@@ -2,8 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
+use Carbon\Carbon;
 use App\{Resource, ResourceRecord};
-use App\Http\Requests\ResourceStatusUpdateRequest as Request;
+use App\Http\Requests\{
+    ResourceUpdateRequest as UpdateRequest,
+    ResourceCreateRequest as CreateRequest,
+    ResourceRecordsShowRequest as ShowRequest,
+    ResourceStatusUpdateRequest as RecordUpdateRequest
+};
 
 class ResourceController extends Controller
 {
@@ -21,12 +28,13 @@ class ResourceController extends Controller
     }
 
     /**
-     * Updates the status.
+     * Generates a new record for the resource.
      *
-     * @param  Resource $resource
-     * @return
+     * @param  ResourceRecord $record
+     * @param  RecordUpdateRequest  $request
+     * @return array
      */
-    public function updateStatus(ResourceRecord $record, Request $request)
+    public function updateStatus(ResourceRecord $record, RecordUpdateRequest $request) : array
     {
         $updated = $record->updateAvailability($request);
 
@@ -39,12 +47,32 @@ class ResourceController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
      */
     public function index(Resource $resources)
     {
-        // return $resources->with('records')->get();
-        return view('resources.index');
+        $resources = $resources->ordered()->get();
+
+        return view('resources.index', compact('resources'));
+    }
+
+    /**
+     * Show the resource and the records (filterable by date range)
+     *
+     * @param  ShowRequest $request
+     * @param  Resource    $resource
+     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
+     */
+    public function show(ShowRequest $request, Resource $resource)
+    {
+        $lastRecord = $resource->records->last();
+        $lastRecord = $lastRecord ? $lastRecord->created_at->diffForHumans() : 'Nothing recorded';
+
+        $resource = $resource->withRecordsWithinDateRange($request->startDate(), $request->endDate());
+
+        $stats = generate_stats_from_records($resource->records);
+
+        return view('resources.show', compact('resource', 'stats', 'lastRecord'));
     }
 
     /**
@@ -54,29 +82,20 @@ class ResourceController extends Controller
      */
     public function create()
     {
-        //
+        return view('resources.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  CreateRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateRequest $request)
     {
-        //
-    }
+        Resource::create($request->only(['name', 'type']));
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Resource  $resource
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Resource $resource)
-    {
-        //
+        return redirect(route('resources.index'))->withSuccess('Resource created!');
     }
 
     /**
@@ -87,7 +106,7 @@ class ResourceController extends Controller
      */
     public function edit(Resource $resource)
     {
-        //
+        return view('resources.edit', compact('resource'));
     }
 
     /**
@@ -97,9 +116,11 @@ class ResourceController extends Controller
      * @param  \App\Resource  $resource
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Resource $resource)
+    public function update(UpdateRequest $request, Resource $resource)
     {
-        //
+        $resource->update($request->only('name', 'type'));
+
+        return redirect(route('resources.show', $resource->id))->withSuccess('Updated successfully!');
     }
 
     /**
@@ -110,6 +131,8 @@ class ResourceController extends Controller
      */
     public function destroy(Resource $resource)
     {
-        //
+        $resource->delete();
+
+        return redirect(route('resources.index'))->withSuccess('Resource deleted!');
     }
 }

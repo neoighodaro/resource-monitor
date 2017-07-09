@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "57cb5f5fb6cc8a9cdb1cbc18a44fe41f",
+    "content-hash": "ccbddac542fe4498489249c988fd599e",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -147,6 +147,54 @@
                 "parser"
             ],
             "time": "2017-05-14T14:47:48+00:00"
+        },
+        {
+            "name": "incloudout/toastr",
+            "version": "1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/InCloudOut/toastr.git",
+                "reference": "1e8bc97afa32aa28fc166f6e8336e24ebf8d0dc0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/InCloudOut/toastr/zipball/1e8bc97afa32aa28fc166f6e8336e24ebf8d0dc0",
+                "reference": "1e8bc97afa32aa28fc166f6e8336e24ebf8d0dc0",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/session": "5.4.*",
+                "illuminate/support": "5.4.*",
+                "php": ">=7.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^0.9.9",
+                "orchestra/testbench": "^3.4",
+                "phpunit/phpunit": "^6.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "InCloudOut\\Toastr\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Hugo Rodrigues",
+                    "email": "hrodrigues1984@hotmail.com"
+                }
+            ],
+            "description": "Laravel 5.4 notifications using toastr",
+            "keywords": [
+                "laravel",
+                "notification",
+                "toastr"
+            ],
+            "time": "2017-04-18T11:03:28+00:00"
         },
         {
             "name": "jakub-onderka/php-console-color",

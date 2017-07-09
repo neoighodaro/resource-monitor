@@ -13,7 +13,7 @@ class ResourceStatusUpdateRequest extends FormRequest
      */
     public function authorize() : bool
     {
-        return $this->get('token') === env('APP_ACCESS_TOKEN');
+        return true;
     }
 
     /**
