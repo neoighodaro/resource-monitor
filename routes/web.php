@@ -11,14 +11,33 @@
 |
 */
 
+// -------------------------------------------------------------------------
+// Auth routes
+// -------------------------------------------------------------------------
+
+Auth::routes();
+
+
+// -------------------------------------------------------------------------
+// Resources
+// -------------------------------------------------------------------------
+
 Route::post('resources/records/generate', 'ResourceController@generate')->middleware('token.verify');
 Route::post('resources/status', 'ResourceController@updateStatus')->middleware('token.verify');
 Route::resource('resources', 'ResourceController');
 
+
+// -------------------------------------------------------------------------
+// Users
+// -------------------------------------------------------------------------
+
+Route::resource('users', 'UsersController');
+
+
+// -------------------------------------------------------------------------
+// Miscellaneous
+// -------------------------------------------------------------------------
+
 Route::get('/', function () {
-    return view('welcome');
+    return redirect(route('resources.index'));
 });
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');

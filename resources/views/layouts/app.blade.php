@@ -43,31 +43,33 @@
 
                     <!-- Right Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-left">
-                        <!-- Authentication Links -->
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
                         @if (Auth::guest())
-                            <li><a href="{{ route('resources.index') }}">Resources</a></li>
+                            <li><a href="{{ route('login') }}">Log in</a></li>
                         @else
+                            <li><a href="{{ route('resources.index') }}">Resources</a></li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                    {{ Auth::user()->name }} <span class="caret"></span>
+                                    <i class="glyphicon glyphicon-user"></i> <span class="caret"></span>
                                 </a>
 
                                 <ul class="dropdown-menu" role="menu">
+                                    <li><a href="{{ route('users.index') }}"><i class="glyphicon glyphicon-user"></i> Manage Users</a></li>
                                     <li>
                                         <a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                            Logout
+                                            if (confirm('Are you sure you want to logout?')) document.getElementById('logout-form').submit();">
+                                            <i class="glyphicon glyphicon-log-out"></i> Logout
                                         </a>
-
                                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                             {{ csrf_field() }}
                                         </form>
                                     </li>
                                 </ul>
                             </li>
-                        @endif
-                    </ul>
+                        </ul>
+                    @endif
                 </div>
             </div>
         </nav>

@@ -12,7 +12,7 @@ class VerifyCsrfToken extends BaseVerifier
      * @var array
      */
     protected $except = [
-        '/resources/records',
+        '/resources/records/generate',
         '/resources/status',
     ];
 }

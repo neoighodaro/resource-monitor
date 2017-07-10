@@ -46,7 +46,7 @@ class ResourceRecord extends Model {
 	 * @param  int|integer       $minutes
 	 * @return Builder
 	 */
-	public function scopeRecentRecords($query, string $uuid, int $minutes = 2) : Builder
+	public function scopeRecentRecords($query, string $uuid, int $minutes = 1) : Builder
 	{
 		return $query->whereResourceId($uuid)
 					 ->where('created_at', '>=', Carbon::now()->subMinutes($minutes))
