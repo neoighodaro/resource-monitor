@@ -7,16 +7,6 @@
 
 require("./bootstrap");
 
-$('.panel-body .input-daterange').datepicker({
-    maxViewMode: 1,
-    format: "yyyy-mm-dd",
-    clearBtn: true,
-    autoclose: true,
-    endDate: new Date(),
-    startDate: new Date(new Date().setFullYear(new Date().getFullYear() - 1)),
-});
-
-
 // window.Vue = require("vue");
 
 /**

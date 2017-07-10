@@ -14,6 +14,7 @@ try {
     window.toastr = require('toastr');
 
     require('bootstrap-sass');
+
 } catch (e) {
     // Shh!
 }

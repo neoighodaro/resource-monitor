@@ -15,6 +15,14 @@ use App\Http\Requests\{
 class ResourceController extends Controller
 {
     /**
+     * Class constructor.
+     */
+    public function __construct()
+    {
+        $this->middleware('auth')->except('generate', 'updateStatus');
+    }
+
+    /**
      * Generate records for the beacon to validate.
      *
      * @param  Resource $resource
