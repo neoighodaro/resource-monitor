@@ -11,11 +11,15 @@
                 </div>
                 <div class="panel-body">
                     <div class="list-group" style="margin:0">
-                    @foreach ($resources as $resource)
+                    @forelse ($resources as $resource)
                         <a class="list-group-item" href="{{ route('resources.show', $resource->id) }}">
                            {{ $resource->type == 'power' ? '⚡️' : '🌏' }} {{ $resource->name }}
                         </a>
-                    @endforeach
+                    @empty
+                        <div class="list-group-item" style="border:0">
+                            No resources available at the moment, add one above.
+                        </div>
+                    @endforelse
                     </div>
                 </div>
             </div>
