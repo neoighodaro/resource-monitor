@@ -24,7 +24,7 @@ class ResourceCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|between:2,15|unique:resources',
+            'name' => 'required|between:2,50|unique:resources',
             'type' => 'required|in:power,internet'
         ];
     }

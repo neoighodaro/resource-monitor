@@ -18,7 +18,7 @@
                         <div class="form-group">
                             <label class="control-label col-sm-2" for="name">Name:</label>
                             <div class="col-sm-10">
-                              <input type="text" name="name" value="{{ old('name') }}" class="form-control" id="name" placeholder="e.g HNG Product WIFI" required maxlength="15">
+                              <input type="text" name="name" value="{{ old('name') }}" class="form-control" id="name" placeholder="e.g HNG Product WIFI" required maxlength="50">
                             </div>
                         </div>
                         <div class="form-group">

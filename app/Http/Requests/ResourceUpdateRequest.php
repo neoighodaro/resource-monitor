@@ -29,7 +29,7 @@ class ResourceUpdateRequest extends FormRequest
         return [
             'name' => [
                 'required',
-                'between:2,15',
+                'between:2,50',
                 Rule::unique('resources')->ignore($resourceId),
             ],
             'type' => 'required|in:power,internet'
