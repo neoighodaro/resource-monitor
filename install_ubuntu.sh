@@ -22,9 +22,9 @@ chmod 0755 hngmonitor
 echo "==> Completed updating permissions..."
 
 echo "==> Preparing script..."
-sed -i '' "s/upmonitor.dev/${1}/g" hngmonitor
-sed -i '' "s/SampleToken/${2}/g" hngmonitor
-sed -i '' "s/__DEBUGGING=true/__DEBUGGING=/g" hngmonitor
+sed -i "s/upmonitor.dev/${1}/g" hngmonitor
+sed -i "s/SampleToken/${2}/g" hngmonitor
+sed -i "s/__DEBUGGING=true/__DEBUGGING=/g" hngmonitor
 echo "==> Script prepared"
 
 echo "==> Moving to installation path"
