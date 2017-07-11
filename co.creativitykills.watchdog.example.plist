@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>co.creativitykills.watchdog</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/path/to/monitor.sh</string>
+        <string>internet</string>
+        <string>5e4394b0-6562-11e7-89ef-3dad63a0e3fa</string>
+    </array>
+    <key>StartInterval</key>
+    <integer>60</integer>
+</dict>
+</plist>

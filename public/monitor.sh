@@ -16,8 +16,8 @@
 # Configuration. You can edit these variables
 # ------------------------------------------------------------------------------
 
-ACCESS_TOKEN=SampleToken
-REMOTE_SERVER_URL="http://upmonitor.dev/resources/status"
+ACCESS_TOKEN=OIUGKJBVHJFUYFJHVjhfuytETYghc67r
+REMOTE_SERVER_URL="http://up.hng.tech/resources/status"
 NOTIFICATION_ERROR_MESSAGE="Watchdog cannot connect to ${REMOTE_SERVER_URL}. Status Code: :STATUS_CODE:"
 __DEBUGGING=true
 
@@ -195,7 +195,7 @@ then
     ## Debugger...
     __print_debug_message "Monitor type validation failed."
 
-    echo "Usage: monitor <power|internet> <uuid>"
+    echo "Usage: hngmonitor <power|internet> <uuid>"
     exit 1
 fi
 

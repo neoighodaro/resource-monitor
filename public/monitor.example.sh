@@ -195,7 +195,7 @@ then
     ## Debugger...
     __print_debug_message "Monitor type validation failed."
 
-    echo "Usage: monitor <power|internet> <uuid>"
+    echo "Usage: hngmonitor <power|internet> <uuid>"
     exit 1
 fi
 

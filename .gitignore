@@ -12,3 +12,4 @@ yarn-error.log
 .env
 cron.sh
 /public/monitor.sh
+co.creativitykills.watchdog.plist
