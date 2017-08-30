@@ -30,10 +30,10 @@ class Resource extends Model {
     public function withRecordsWithinDateRange(Carbon $startDate, Carbon $endDate)
     {
         return $this->whereId($this->id)->with(['records' => function ($record) use ($startDate, $endDate) {
-            $record->whereBetween('created_at', [$startDate->toDateString(), $endDate->toDateString()])
+            $record->whereBetween('created_at', [$startDate->toDateString(), $endDate->addDay(1)->toDateString()])
                     ->whereRaw('TIME(created_at) >= ?', ['09:00:00'])
                     ->whereRaw('TIME(created_at) <= ?', ['17:30:00'])
-                   ->orderBy('created_at', 'desc');
+                    ->orderBy('created_at', 'desc');
         }])->first();
     }
 
