@@ -126,7 +126,6 @@ class ResourceController extends Controller
      */
     public function update(UpdateRequest $request, Resource $resource)
     {
-        // dd($request->all());
         $resource->update($request->only('name', 'type','resource_starts','resource_ends'));
 
         return redirect(route('resources.show', $resource->id))->withSuccess('Updated successfully!');
