@@ -14,6 +14,7 @@
     <link href="https://fonts.googleapis.com/css?family=Passion+One|Raleway:300,400,600" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/clockpicker/0.0.7/bootstrap-clockpicker.min.css">
 </head>
 <body>
     <div id="app">
@@ -80,6 +81,7 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clockpicker/0.0.7/bootstrap-clockpicker.min.js"></script>
 
     <script type="text/javascript">
         $('.panel-body .input-daterange').datepicker({
@@ -89,6 +91,12 @@
             autoclose: true,
             endDate: new Date(),
             startDate: new Date(new Date().setFullYear(new Date().getFullYear() - 1)),
+        });
+        $('.clockpicker').clockpicker({
+            align: 'left',
+            donetext: 'Done',
+            autoclose:'true',
+            'default': 'now'
         });
     </script>
 
