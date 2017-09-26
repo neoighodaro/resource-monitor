@@ -18,7 +18,7 @@ class Resource extends Model {
     /**
      * {@inheritDoc}
      */
-    protected $fillable = ['name', 'type'];
+    protected $fillable = ['name', 'type','resource_starts','resource_ends'];
 
     /**
      * Get resource with records from date range.
@@ -29,22 +29,16 @@ class Resource extends Model {
      */
     public function withRecordsWithinDateRange(Carbon $startDate, Carbon $endDate)
     {
+        $resource_starts   = isset( $this->resource_starts) ?  $this->resource_starts : '00:00';
+        $resource_ends     = isset( $this->resource_ends) ?  $this->resource_ends : '24:00';
 
-        if ($this->id == "41a3fb40-67ea-11e7-b81f-416527528196" || $this->id == "d47b0330-67e2-11e7-b106-bfa264a5d130" ) {
-            return $this->whereId($this->id)->with(['records' => function ($record) use ($startDate, $endDate) {
-                $record->whereBetween('created_at', [$startDate->toDateString(), $endDate->addDay(1)->toDateString()])
-                        ->orderBy('created_at', 'desc');
-            }])->first();
-        }
-        else{
-            return $this->whereId($this->id)->with(['records' => function ($record) use ($startDate, $endDate) {
-                $record->whereBetween('created_at', [$startDate->toDateString(), $endDate->addDay(1)->toDateString()])
-                        ->whereRaw('TIME(created_at) >= ?', ['09:00:00'])
-                        ->whereRaw('TIME(created_at) <= ?', ['17:30:00'])
-                        ->orderBy('created_at', 'desc');
-            }])->first();
-            
-        }
+        return $this->whereId($this->id)->with(['records' => function ($record) use ($startDate, $endDate, $resource_starts, $resource_ends ) {
+            $record->whereBetween('created_at', [$startDate->toDateString(), $endDate->addDay(1)->toDateString()])
+                    ->whereRaw('TIME(created_at) >= ?', $resource_starts)
+                    ->whereRaw('TIME(created_at) <= ?', $resource_ends)
+                    ->orderBy('created_at', 'desc');
+        }])->first();      
+              
     }
 
     /**

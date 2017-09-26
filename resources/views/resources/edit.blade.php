@@ -32,7 +32,30 @@
                                     <option value="internet" {{ old('type', $resource->type) == 'internet' ? 'selected' : '' }}>🌏 Internet</option>
                                 </select>
                             </div>
+                        </div> 
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="name">Report starts:</label>
+                            <div class="col-sm-10">
+                                <div class="input-group clockpicker">
+                                <input type="text" name="resource_starts" class="form-control" value="{{ old('resource_starts',$resource->resource_starts) }}">
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-time"></span>
+                                </span>
+                            </div>
+                            </div>
                         </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="name">Report ends:</label>
+                            <div class="col-sm-10">
+                                <div class="input-group clockpicker">
+                                <input type="text" name="resource_ends" class="form-control" value="{{old('resource_ends',$resource->resource_ends)}}">
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-time"></span>
+                                </span>
+                            </div>
+                            </div>
+                        </div>
+
                     </div>
                     <div class="panel-footer clearfix">
                         <button class="btn btn-md btn-primary pull-right" type="submit">Update Resource</button>
