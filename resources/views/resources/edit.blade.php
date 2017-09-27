@@ -55,6 +55,15 @@
                             </div>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="name">Exclude Weekends</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" required name="exclude_weekends">
+                                    <option value="1" {{ old('exclude_weekends', $resource->exclude_weekends) == 1 ? 'selected' : '' }}> Yes</option>
+                                    <option value="0" {{ old('exclude_weekends', $resource->exclude_weekends) == 0 ? 'selected' : '' }}> No</option>
+                                </select>
+                            </div>
+                        </div>
 
                     </div>
                     <div class="panel-footer clearfix">

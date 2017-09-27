@@ -18,7 +18,7 @@ class Resource extends Model {
     /**
      * {@inheritDoc}
      */
-    protected $fillable = ['name', 'type','resource_starts','resource_ends'];
+    protected $fillable = ['name', 'type','resource_starts','resource_ends','exclude_weekends'];
 
     /**
      * Get resource with records from date range.
@@ -31,13 +31,23 @@ class Resource extends Model {
     {
         $resource_starts   = isset( $this->resource_starts) ?  $this->resource_starts : '00:00';
         $resource_ends     = isset( $this->resource_ends) ?  $this->resource_ends : '24:00';
-
-        return $this->whereId($this->id)->with(['records' => function ($record) use ($startDate, $endDate, $resource_starts, $resource_ends ) {
-            $record->whereBetween('created_at', [$startDate->toDateString(), $endDate->addDay(1)->toDateString()])
-                    ->whereRaw('TIME(created_at) >= ?', $resource_starts)
-                    ->whereRaw('TIME(created_at) <= ?', $resource_ends)
-                    ->orderBy('created_at', 'desc');
-        }])->first();      
+        if($this->exclude_weekends == 1){
+            return $this->whereId($this->id)->with(['records' => function ($record) use ($startDate, $endDate, $resource_starts, $resource_ends ) {
+                $record->whereBetween('created_at', [$startDate->toDateString(), $endDate->addDay(1)->toDateString()])
+                        ->whereRaw('TIME(created_at) >= ?', $resource_starts)
+                        ->whereRaw('TIME(created_at) <= ?', $resource_ends)
+                        ->whereRaw('WEEKDAY( DATE(created_at) ) < ?', 5)
+                        ->orderBy('created_at', 'desc');
+                }])->first();
+        }
+        else{
+            return $this->whereId($this->id)->with(['records' => function ($record) use ($startDate, $endDate, $resource_starts, $resource_ends ) {
+                $record->whereBetween('created_at', [$startDate->toDateString(), $endDate->addDay(1)->toDateString()])
+                        ->whereRaw('TIME(created_at) >= ?', $resource_starts)
+                        ->whereRaw('TIME(created_at) <= ?', $resource_ends)
+                        ->orderBy('created_at', 'desc');
+                }])->first();          
+        }
               
     }
 
