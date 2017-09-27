@@ -35,7 +35,7 @@
                             <label class="control-label col-sm-2" for="name">Report starts:</label>
                             <div class="col-sm-10">
                                 <div class="input-group clockpicker">
-                                <input type="text" name="resource_starts" class="form-control" value="{{ old('resource_starts') }}">
+                                <input type="text" name="resource_starts" class="form-control"  placeholder="e.g 09:00" value="{{ old('resource_starts') }}">
                                 <span class="input-group-addon">
                                     <span class="glyphicon glyphicon-time"></span>
                                 </span>
@@ -46,11 +46,20 @@
                             <label class="control-label col-sm-2" for="name">Report ends:</label>
                             <div class="col-sm-10">
                                 <div class="input-group clockpicker">
-                                <input type="text" name="resource_ends" class="form-control" value="{{old('resource_ends')}}">
+                                <input type="text" name="resource_ends" class="form-control" placeholder="e.g 17:30" value="{{old('resource_ends')}}">
                                 <span class="input-group-addon">
                                     <span class="glyphicon glyphicon-time"></span>
                                 </span>
                             </div>
+                            </div>
+                        </div>
+                         <div class="form-group">
+                            <label class="control-label col-sm-2" for="name">Exclude Weekends</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" required name="exclude_weekends">
+                                    <option value="1" {{ old('exclude_weekends') == 1 ? 'selected' : '' }}> Yes</option>
+                                    <option value="0" {{ old('exclude_weekends') == 0 ? 'selected' : '' }}> No</option>
+                                </select>
                             </div>
                         </div>
                     </div>

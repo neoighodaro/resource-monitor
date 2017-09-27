@@ -101,7 +101,7 @@ class ResourceController extends Controller
      */
     public function store(CreateRequest $request)
     {
-        Resource::create($request->only(['name', 'type','resource_starts','resource_ends']));
+        Resource::create($request->only(['name', 'type','resource_starts','resource_ends','exclude_weekends']));
 
         return redirect(route('resources.index'))->withSuccess('Resource created!');
     }
@@ -126,7 +126,7 @@ class ResourceController extends Controller
      */
     public function update(UpdateRequest $request, Resource $resource)
     {
-        $resource->update($request->only('name', 'type','resource_starts','resource_ends'));
+        $resource->update($request->only('name', 'type','resource_starts','resource_ends','exclude_weekends'));
 
         return redirect(route('resources.show', $resource->id))->withSuccess('Updated successfully!');
     }
