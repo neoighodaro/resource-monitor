@@ -22,6 +22,9 @@
                     @endforelse
                     </div>
                 </div>
+
+                {{ $resource->links() }}
+                
             </div>
         </div>
     </div>
