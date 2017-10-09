@@ -32,23 +32,17 @@ class Resource extends Model {
         $resource_starts   = isset( $this->resource_starts) ?  $this->resource_starts : '00:00';
         $resource_ends     = isset( $this->resource_ends) ?  $this->resource_ends : '24:00';
 
-        if ($this->exclude_weekends == 1) {
-            return $this->whereId($this->id)->with(['records' => function ($record) use ($startDate, $endDate, $resource_starts, $resource_ends ) {
-                $record->whereBetween('created_at', [$startDate->toDateString(), $endDate->addDay(1)->toDateString()])
-                        ->whereRaw('TIME(created_at) >= ?', $resource_starts)
-                        ->whereRaw('TIME(created_at) <= ?', $resource_ends)
-                        ->whereRaw('WEEKDAY( DATE(created_at) ) < ?', 5)
-                        ->orderBy('created_at', 'desc');
-                }])->first();
-        } else {
-            return $this->whereId($this->id)->with(['records' => function ($record) use ($startDate, $endDate, $resource_starts, $resource_ends ) {
-                $record->whereBetween('created_at', [$startDate->toDateString(), $endDate->addDay(1)->toDateString()])
-                        ->whereRaw('TIME(created_at) >= ?', $resource_starts)
-                        ->whereRaw('TIME(created_at) <= ?', $resource_ends)
-                        ->orderBy('created_at', 'desc');
-                }])->first();
-        }
+        return $this->whereId($this->id)->with(['records' => function ($record) use ($startDate, $endDate, $resource_starts, $resource_ends ) {
+            $record->whereBetween('created_at', [$startDate->toDateString(), $endDate->addDay(1)->toDateString()])
+                    ->whereRaw('TIME(created_at) >= ?', $resource_starts)
+                    ->whereRaw('TIME(created_at) <= ?', $resource_ends);
 
+            if ($this->exclude_weekends == 1) {
+                $record->whereRaw('WEEKDAY( DATE(created_at) ) < ?', 5);
+            }
+
+            $record->orderBy('created_at', 'desc');
+        }])->first();
     }
 
     /**
