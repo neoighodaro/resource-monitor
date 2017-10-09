@@ -59,7 +59,7 @@ class ResourceController extends Controller
      */
     public function index(Resource $resources)
     {
-        $resources = $resources->ordered()->paginate(3600);
+        $resources = $resources->ordered()->get();
 
         return view('resources.index', compact('resources'));
     }

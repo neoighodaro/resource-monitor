@@ -37,7 +37,8 @@ class Resource extends Model {
                         ->whereRaw('TIME(created_at) >= ?', $resource_starts)
                         ->whereRaw('TIME(created_at) <= ?', $resource_ends)
                         ->whereRaw('WEEKDAY( DATE(created_at) ) < ?', 5)
-                        ->orderBy('created_at', 'desc');
+                        ->orderBy('created_at', 'desc')
+                        ->paginate(3600);
                 }])->first();
         }
         else{
@@ -45,7 +46,8 @@ class Resource extends Model {
                 $record->whereBetween('created_at', [$startDate->toDateString(), $endDate->addDay(1)->toDateString()])
                         ->whereRaw('TIME(created_at) >= ?', $resource_starts)
                         ->whereRaw('TIME(created_at) <= ?', $resource_ends)
-                        ->orderBy('created_at', 'desc');
+                        ->orderBy('created_at', 'desc')
+                        ->paginate(3600);
                 }])->first();          
         }
               
