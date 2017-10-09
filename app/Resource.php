@@ -28,7 +28,7 @@ class Resource extends Model {
      * @return static|null
      */
     public function withRecordsWithinDateRange(Carbon $startDate, Carbon $endDate)
-    {
+    {   
         $resource_starts   = isset( $this->resource_starts) ?  $this->resource_starts : '00:00';
         $resource_ends     = isset( $this->resource_ends) ?  $this->resource_ends : '24:00';
         if($this->exclude_weekends == 1){
@@ -37,8 +37,7 @@ class Resource extends Model {
                         ->whereRaw('TIME(created_at) >= ?', $resource_starts)
                         ->whereRaw('TIME(created_at) <= ?', $resource_ends)
                         ->whereRaw('WEEKDAY( DATE(created_at) ) < ?', 5)
-                        ->orderBy('created_at', 'desc')
-                        ->paginate(10);
+                        ->orderBy('created_at', 'desc');
                 }])->first();
         }
         else{
@@ -46,8 +45,7 @@ class Resource extends Model {
                 $record->whereBetween('created_at', [$startDate->toDateString(), $endDate->addDay(1)->toDateString()])
                         ->whereRaw('TIME(created_at) >= ?', $resource_starts)
                         ->whereRaw('TIME(created_at) <= ?', $resource_ends)
-                        ->orderBy('created_at', 'desc')
-                        ->paginate(10);
+                        ->orderBy('created_at', 'desc');
                 }])->first();          
         }
               

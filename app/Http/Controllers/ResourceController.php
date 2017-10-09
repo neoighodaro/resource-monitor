@@ -72,8 +72,9 @@ class ResourceController extends Controller
      * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
      */
     public function show(ShowRequest $request, Resource $resource)
-    {
-        $lastRecord = $resource->records->last();
+    {   
+        $lastRecord = $resource->records()->orderBy('created_at','DESC')->first();
+        
         $lastRecord = $lastRecord ? $lastRecord->created_at->diffForHumans() : 'Nothing recorded';
 
         $resource = $resource->withRecordsWithinDateRange($request->startDate(), $request->endDate());
