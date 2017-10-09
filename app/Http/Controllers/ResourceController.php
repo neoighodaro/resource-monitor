@@ -72,12 +72,16 @@ class ResourceController extends Controller
      * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
      */
     public function show(ShowRequest $request, Resource $resource)
-    {   
+    {
         $lastRecord = $resource->records()->orderBy('created_at','DESC')->first();
-        
+
         $lastRecord = $lastRecord ? $lastRecord->created_at->diffForHumans() : 'Nothing recorded';
 
-        $resource = $resource->withRecordsWithinDateRange($request->startDate(), $request->endDate());
+        $cacheKey = "records.{$resource->id}.".$request->startDate()."-".$request->endDate();
+
+        $resource = Cache::remember($cacheKey, config('records.cache_time'), function ()  use ($request) {
+            return $resource->withRecordsWithinDateRange($request->startDate(), $request->endDate());
+        });
 
         $stats = generate_stats_from_records($resource->records);
 
