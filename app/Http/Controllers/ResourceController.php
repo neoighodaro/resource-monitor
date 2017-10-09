@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Exception;
 use Carbon\Carbon;
+use Cache, Exception;
 use App\{Resource, ResourceRecord};
 use App\Http\Requests\{
     ResourceUpdateRequest as UpdateRequest,
