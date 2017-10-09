@@ -79,7 +79,7 @@ class ResourceController extends Controller
 
         $cacheKey = "records.{$resource->id}.".$request->startDate()."-".$request->endDate();
 
-        $resource = Cache::remember($cacheKey, config('records.cache_time'), function ()  use ($request) {
+        $resource = Cache::remember($cacheKey, config('records.cache_time'), function ()  use ($request, $resource) {
             return $resource->withRecordsWithinDateRange($request->startDate(), $request->endDate());
         });
 
