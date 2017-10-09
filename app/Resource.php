@@ -38,7 +38,7 @@ class Resource extends Model {
                         ->whereRaw('TIME(created_at) <= ?', $resource_ends)
                         ->whereRaw('WEEKDAY( DATE(created_at) ) < ?', 5)
                         ->orderBy('created_at', 'desc')
-                        ->paginate(3600);
+                        ->paginate(10);
                 }])->first();
         }
         else{
@@ -47,7 +47,7 @@ class Resource extends Model {
                         ->whereRaw('TIME(created_at) >= ?', $resource_starts)
                         ->whereRaw('TIME(created_at) <= ?', $resource_ends)
                         ->orderBy('created_at', 'desc')
-                        ->paginate(3600);
+                        ->paginate(10);
                 }])->first();          
         }
               
